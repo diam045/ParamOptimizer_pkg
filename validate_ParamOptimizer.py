@@ -21,28 +21,6 @@ sys.path.append(".")
 
 class Hyperparam_optimizer(object):
 
-    def main(self):
-        logging.basicConfig(
-            level=getattr(logging, LOG_LEVEL),
-            format='%(asctime)s [%(levelname)s] %(module)s | %(message)s',
-            datefmt='%Y/%m/%d %H:%M:%S',
-        )
-
-        string_json = '{"seed":0,"lib":"hyperopt","algo":"tpe","scope":{"x":["uniform",-10,10],"y":["uniform",-10,10]},"max_evals":1,"results":{"losses":[3.4683742070179777,3.196277295751884,28.773296779196503,19.62775326741544,20.455256910553278],"statuses":["ok","ok","ok","ok","ok"],"vals":{"y":[-0.13952676978449574,0.3096416495214722,-2.416283380272519,0.28691742075450755,-3.5258018804882827],"x":[1.8571231751102246,1.760795088769135,4.789036584263615,-4.421021563064698,2.832662706729936]}}}'
-        # string_json = '{"seed":0,"lib":"hyperopt","algo":"rand","scope":{"x":["uniform",-10,10],"y":["uniform",-10,10]},"max_evals":1,"results":{"losses":[3.4683742070179777,3.196277295751884,28.773296779196503,19.62775326741544,20.455256910553278],"statuses":["ok","ok","ok","ok","ok"],"vals":{"y":[-0.13952676978449574,0.3096416495214722,-2.416283380272519,0.28691742075450755,-3.5258018804882827],"x":[1.8571231751102246,1.760795088769135,4.789036584263615,-4.421021563064698,2.832662706729936]}}}'
-        # string_json = '{"seed":0,"lib":"hyperopt","algo":"anneal","scope":{"x":["uniform",-10,10],"y":["uniform",-10,10]},"max_evals":1,"results":{"losses":[3.4683742070179777,3.196277295751884,28.773296779196503,19.62775326741544,20.455256910553278],"statuses":["ok","ok","ok","ok","ok"],"vals":{"y":[-0.13952676978449574,0.3096416495214722,-2.416283380272519,0.28691742075450755,-3.5258018804882827],"x":[1.8571231751102246,1.760795088769135,4.789036584263615,-4.421021563064698,2.832662706729936]}}}'
-
-        # number mismatch
-        string_json = '{"seed":0,"lib":"hyperopt","algo":"tpe","scope":{"x":["uniform",-10,10],"y":["uniform",-10,10]},"max_evals":3,"results":{"losses":[3.4777,3.294,28.729,19.62,20.458],"statuses":["ok","ok","ok","ok","ok"],"vals":{"y":[-0.13974,0.3722,-2.419,0.28755,-3.2827],"x":[1.8571,1.765,4.615,-4.068,2.832]}}}'
-
-        string_json = '{"seed":0,"lib":"hyperopt","algo":"tpe","scope":[{"x":["uniform",-10,10]},{"y":["uniform",-10,10]}],"max_evals":1,"results":{"losses":[3.4683742070179777,3.196277295751884,28.773296779196503,19.62775326741544,20.455256910553278],"statuses":["ok","ok","ok","ok","ok"],"vals":{"y":[-0.13952676978449574,0.3096416495214722,-2.416283380272519,0.28691742075450755,-3.5258018804882827],"x":[1.8571231751102246,1.760795088769135,4.789036584263615,-4.421021563064698,2.832662706729936]}}}'
-        string_json = '{"seed":0,"lib":"hyperopt","algo":"tpe","scope":[{"x":["quniform",-10,10,0.1]},{"y":["quniform",-10,10,0.1]}],"max_evals":1,"results":{"losses":[3.4683742070179777,3.196277295751884,28.773296779196503],"statuses":["ok","ok","ok"],"vals":{"y":[-0.13952676978449574,0.28691742075450755,-3.5258018804882827],"x":[1.8571231751102246,1.760795088769135,2.832662706729936]}}}'
-
-        executor = OptExecutorFactory.get_executor(string_json)
-        rval = executor.suggest()
-
-        print(rval)
-
     @staticmethod
     def create_eval_file(file_path, newname_base):
         todaydetail = datetime.today()
@@ -85,7 +63,7 @@ class Hyperparam_optimizer(object):
                     writer.writerow([loss]+vals)
 
         losses = json.loads(json_str)[COMMON_RESULTS][COMMON_LOSSES]
-        vals = json.loads(json_str)[COMMON_RESULTS]["vals"]
+        vals = json.loads(json_str)[COMMON_RESULTS][COMMON_VALS]
         bestindex = np.argmin(losses)
         if verbose > 0:
             print("{} min is ".format("one_arg_func"), func(*best_param), "  [{}]".format(best_param))
