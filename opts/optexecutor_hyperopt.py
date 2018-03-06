@@ -3,7 +3,6 @@
 from logging import getLogger
 from hyperopt import anneal, rand, tpe, hp, Trials, mix, partial
 from hyperopt.base import Domain
-from utils.stop_watch import stop_watch
 from utils.stop_watch import stop_watch_add
 from opts.optexecutor import OptExecutor
 
@@ -26,7 +25,6 @@ class OptExecutorHyperopt(OptExecutor):
         super().__init__(json_loaded)
         self.trials = Trials()
 
-        self.rand_seed = None
         if COMMON_SEED in json_loaded.keys():
             self.set_randomseed(json_loaded[COMMON_SEED])
 
@@ -64,7 +62,6 @@ class OptExecutorHyperopt(OptExecutor):
         results = []
         miscs = []
         for i in range(len(tids)):
-            idxs_content=[[i], [i]]
             idxs_content=[[i] for key in scope_keys]
             idxs_vals_content=[]
             for key in scope_keys:
@@ -84,9 +81,9 @@ class OptExecutorHyperopt(OptExecutor):
                 miscs,
             )
         )
-
         trials.refresh()
         return trials
+
 
     @stop_watch_add
     def suggest(self):
@@ -111,11 +108,7 @@ class OptExecutorHyperopt(OptExecutor):
         """
         _logger = getLogger(__name__)
 
-        # from time import sleep
-        # sleep(1)
-
         id_qnt = int(self.json_loaded[COMMON_MAXEVALS])
-
         additional_args = []
         executed_alog=self.json_loaded[COMMON_ALGO]
         if executed_alog == self.HYP_ALGO_TPE:

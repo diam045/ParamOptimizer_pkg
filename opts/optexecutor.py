@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from datetime import datetime
 from collections import defaultdict
 from logging import getLogger
 
@@ -21,13 +21,13 @@ class OptExecutor(object):
 
     def __init__(self, json_loaded):
         self.json_loaded = json_loaded
+        self.rand_seed = datetime.now().microsecond
 
     def set_randomseed(self, obj):
         _logger = getLogger(__name__)
         try:
-            self.rand_seed = int(obj)
+            self.rand_seed = int(obj) + len(self.json_loaded[COMMON_RESULTS][COMMON_LOSSES])
         except:
-            # _logger.warning('random seed does not int. set default.')
             _logger.info('random seed does not int. set default.')
 
     def suggest(self):

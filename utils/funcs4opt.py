@@ -1,3 +1,4 @@
+# coding: UTF-8
 import numpy as np
 
 LEVIN13 = "LeviN13"
@@ -22,8 +23,8 @@ class absfunc(object):
 class Sphere(absfunc):
     best_param = [0, 0]
     # range = [[float('-inf'), float('inf')], [float('-inf'), float('inf')]]        # Mathematically
-    # range = [[float(-10), float(10)], [float(-10), float(10)]]                      # Programmatically
-    range = [[float(-5), float(5)], [float(-5), float(5)]]                      # Programmatically
+    # range = [[float(-10), float(10)], [float(-10), float(10)]]                    # Programmatically
+    range = [[float(-5), float(5)], [float(-5), float(5)]]                          # Programmatically
     minimum = 0
 
     def __init__(self):
@@ -126,7 +127,7 @@ class FuncFactory:
         return cls._instance
 
     def getFunc(self, name):
-        assert name in self.funcs.keys(), "Unknown function name."
+        assert name in self.funcs.keys(), "Unknown function name [{}].".format(name)
 
         return self.funcs[name]()
 

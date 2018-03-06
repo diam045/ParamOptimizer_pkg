@@ -1,0 +1,9 @@
+seed,3,,
+lib,hyperopt,,
+algo,tpe,,
+scope,,,
+x,uniform,-10,10
+y,uniform,-10,10
+max_evals,1,,
+results,,,
+losses,x,y,

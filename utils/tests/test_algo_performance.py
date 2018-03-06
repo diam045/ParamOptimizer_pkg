@@ -55,6 +55,7 @@ class AlgorithmPerformTest(object):
         base_file_name = "{}{}".format(name, ext)
         copy_file = "{}/{}".format(evalfolder, base_file_name)
         if not os.path.exists(copy_file):
+            print("current:", os.getcwd())
             shutil.copy(file_path, copy_file)
 
         return evalfolder, copy_file
@@ -85,21 +86,12 @@ class AlgorithmPerformTest(object):
         return loss, elaps
 
     def test_each_performance(self):
+        keywords = ["lib", "opt_func_name", "algo", "seed"]
         result_data = []
 
         test_file="exec_files/sample_01.csv"
-        exec_n = 5
-        num_trial = 200
+        test_file="utils/tests/exec_files/sample_01.csv"
 
-        keywords = ["lib", "opt_func_name", "algo", "seed"]
-
-        libs = [COMMON_LIB_HYPEROPT]
-        libs = [COMMON_LIB_HYPEROPT, COMMON_LIB_GPYOPT]
-        libs = [COMMON_LIB_GPYOPT]
-        funcs = funcs4opt.FuncFactory().funcs.keys()
-        funcs = [funcs4opt.SPHERE, funcs4opt.BANANA, funcs4opt.EASOM]
-        algorithms = [hyp.HYP_ALGO_TPE, hyp.HYP_ALGO_ANNEAL, hyp.HYP_ALGO_RAND]
-        algorithms = [hyp.HYP_ALGO_TPE, hyp.HYP_ALGO_ANNEAL, hyp.HYP_ALGO_RAND, hyp.HYP_ALGO_MIX]
         A = "{},{}".format(gpy.GPY_MODEL_GP, gpy.GPY_AQUISITION_EI)
         B = "{},{}".format(gpy.GPY_MODEL_GP, gpy.GPY_AQUISITION_MPI)
         C = "{},{}".format(gpy.GPY_MODEL_GP, gpy.GPY_AQUISITION_LCB)
@@ -109,73 +101,44 @@ class AlgorithmPerformTest(object):
         G = "{},{}".format(gpy.GPY_MODEL_SPARSEGP, gpy.GPY_AQUISITION_EI)
         H = "{},{}".format(gpy.GPY_MODEL_SPARSEGP, gpy.GPY_AQUISITION_MPI)
         I = "{},{}".format(gpy.GPY_MODEL_SPARSEGP, gpy.GPY_AQUISITION_LCB)
+
+        """ doesn't work very well
         J = "{},{}".format(gpy.GPY_MODEL_WARPERDGP, gpy.GPY_AQUISITION_EI)
         K = "{},{}".format(gpy.GPY_MODEL_WARPERDGP, gpy.GPY_AQUISITION_MPI)
         L = "{},{}".format(gpy.GPY_MODEL_WARPERDGP, gpy.GPY_AQUISITION_LCB)
         M = "{},{}".format(gpy.GPY_MODEL_RF, gpy.GPY_AQUISITION_EI)
         N = "{},{}".format(gpy.GPY_MODEL_RF, gpy.GPY_AQUISITION_MPI)
         O = "{},{}".format(gpy.GPY_MODEL_RF, gpy.GPY_AQUISITION_LCB)
-        # algorithms = [A, E, G, J, M]
-        algorithms = [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O]
-        algorithms = [A, B, C, D, E, F, G, H, I]
-        algorithms = [A, B, C, G, H, I]
-        # algorithms = [hyp.HYP_ALGO_MIX]
+        """
 
-        # test
-        libs = [COMMON_LIB_HYPEROPT]
-        # funcs = [funcs4opt.SPHERE]
-        # funcs = [funcs4opt.EASOM]
-        # algorithms = [hyp.HYP_ALGO_MIX]
-        # algorithms = [hyp.HYP_ALGO_ANNEAL]
-        algorithms = [hyp.HYP_ALGO_TPE]
-        exec_n = 100
-        num_trial = 100
-
-        libs = [COMMON_LIB_GPYOPT]
-        # algorithms = [M]
-        # algorithms = [A]
-        algorithms = [C]
-        # algorithms = [D]
-        # algorithms = [A, D, G, J]
-        # algorithms = [J]
-        funcs = [funcs4opt.SPHERE]
-
-
-        libs = [COMMON_LIB_GPYOPT]
-        # algorithms = [F]
-        # algorithms = [D]
-        algorithms = [A, C]
-        # algorithms = [D, F]
-        # algorithms = [G, I]
-        algorithms = [A, C, D, F]
-
-        # libs = [COMMON_LIB_HYPEROPT]
-        # algorithms = [hyp.HYP_ALGO_TPE, hyp.HYP_ALGO_ANNEAL, hyp.HYP_ALGO_RAND, hyp.HYP_ALGO_MIX]
+        # evaluate conditions
+        # >>>
+        libs = [COMMON_LIB_HYPEROPT, COMMON_LIB_GPYOPT]
+        algorithms_gpyopt = [A, C]
+        algorithms_hyperopt = [hyp.HYP_ALGO_TPE, hyp.HYP_ALGO_ANNEAL, hyp.HYP_ALGO_RAND, hyp.HYP_ALGO_MIX]
 
         funcs = funcs4opt.FuncFactory().funcs.keys()
-        exec_n = 10
+        exec_n = 3
         num_trial = 100
         logging_cycle = {5, 10, 20, 25, 50}
+        # <<<
+
+        # funcs = [funcs4opt.SPHERE]
+        # algorithms_hyperopt = [hyp.HYP_ALGO_TPE, hyp.HYP_ALGO_ANNEAL]
+
 
         random_seeds = [x for x in range(exec_n)]
-        if len(libs) > 1:
-            condition_lists_hyp = (list(itertools.product([COMMON_LIB_HYPEROPT],
-                                                          funcs,
-                                                          algorithms,
-                                                          random_seeds
-                                                        )))
-            condition_lists_gpy = (list(itertools.product([COMMON_LIB_GPYOPT],
-                                                          funcs,
-                                                          algorithms,
-                                                          random_seeds
-                                                        )))
-            condition_lists = condition_lists_hyp + condition_lists_gpy
-        else:
-            condition_lists = (list(itertools.product(libs,
+        condition_lists_hyp = (list(itertools.product([COMMON_LIB_HYPEROPT],
                                                       funcs,
-                                                      algorithms,
+                                                      algorithms_hyperopt,
                                                       random_seeds
                                                     )))
+        condition_lists_gpy = (list(itertools.product([COMMON_LIB_GPYOPT],
+                                                      funcs,
+                                                      algorithms_gpyopt,
+                                                      random_seeds
+                                                    )))
+        condition_lists = condition_lists_hyp + condition_lists_gpy
 
         evalfolder, base_file_path = self.create_eval_env(test_file)
 
@@ -185,25 +148,14 @@ class AlgorithmPerformTest(object):
             args_dict = dict(zip(keywords, condition_list))
 
             newname_base = "eval_{}_{}_{}_seed{}".format(*condition_list)
-            # result_one_data["lib"] = args_dict["lib"]
-            # result_one_data["opt_func_name"] = args_dict["opt_func_name"]
-            # result_one_data["algo"] = args_dict["algo"]
-            # result_one_data["seed"] = args_dict["seed"]
-
             eval_file = "{}/{}.csv".format(evalfolder, newname_base)
             shutil.copyfile(base_file_path, eval_file)
 
             args_dict["eval_file"] = eval_file
 
-            # experimentally random seed definition decrease performance.
-            # np.random.seed(args_dict["seed"])
-
             losses = []
             elapses = []
             for i in range(num_trial):
-                if args_dict["lib"] == COMMON_LIB_HYPEROPT:
-                    seed_int = np.random.randint(0, 10E+6)
-                    args_dict["seed"] = seed_int
 
                 args_dict["n_exec"] = i
                 loss, elaps = self.execute_evaluation(**args_dict)
@@ -213,15 +165,6 @@ class AlgorithmPerformTest(object):
                 if i in logging_cycle:
                     result_data.append(self.make_summ_data(keywords, condition_list, losses, elapses, i))
 
-            # print(args_dict)
-            # opt_func = funcs4opt.FuncFactory().getFunc(args_dict["opt_func_name"])
-            # func = opt_func.func
-            # best_param = opt_func.best_param
-            # print("{} min is ".format(args_dict["opt_func_name"]), func(*best_param), "  [{}]".format(best_param))
-            #
-            # losses = request_dict["results"]["losses"]
-            # vals = request_dict["results"]["vals"]
-            # print("  bestidx:", bestindex, " x:",vals["x"][bestindex], " y:", vals["y"][bestindex])
             result_data.append(self.make_summ_data(keywords, condition_list, losses, elapses, num_trial))
 
         file_path = "{}/{}".format(evalfolder, "result_summary_{}.csv".format(datetime.today().strftime("%Y-%m-%d %H%M%S")))
@@ -251,7 +194,7 @@ class AlgorithmPerformTest(object):
 if __name__ == '__main__':
 
     # print("current:", os.getcwd())
-    os.chdir("../..")
+    # os.chdir("../..")
     # print("current:", os.getcwd())
 
     ins = AlgorithmPerformTest()

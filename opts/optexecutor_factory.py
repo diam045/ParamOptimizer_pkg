@@ -31,6 +31,6 @@ class OptExecutorFactory(object):
             return OptExecutorGpyopt(json_loaded)
 
         else:
-            assert "#TODO no implementation"
+            assert "#TODO no implementation {}".format(json_loaded[COMMON_LIB])
 
 
