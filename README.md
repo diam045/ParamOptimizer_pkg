@@ -37,9 +37,9 @@ hyperoptが新しいnetworkxに対応していないため、古いVersionをイ
 |:---|
 |Tutorial参照|
 
-|POSTデータ(JSON)|
-|:---|:---|:-:|:---|:---|:-:|
-|JSON Key|型|必須|概要|ライブラリ依存|
+|POSTデータ(JSON)||||||
+|:---|:---|:---|:---|:---|:---|
+|JSON Key|型|必須|概要|ライブラリ依存||
 |seed|数値||乱数シード　再現性確認用||
 |lib|文字列|◯|ライブラリ名||
 |algo|文字列|◯|ライブラリが持つアルゴリズム選択|◯|
@@ -53,7 +53,8 @@ hyperoptが新しいnetworkxに対応していないため、古いVersionをイ
 |results - vals - 変数名|配列||scopeで定義した変数名毎の実効値|||
 
 
-|返却データ(JSON)|
+
+|返却データ(JSON)|||
 |:---|:-:|:---|
 |JSON Key|型|概要|
 |vals|オブジェクト|推奨パラメータ|
@@ -77,6 +78,7 @@ hyperoptが新しいnetworkxに対応していないため、古いVersionをイ
         "scope": [
           {ラベル名: [choice, 選択A, 選択B, ...]}
         ]
+
 [その他](https://github.com/hyperopt/hyperopt/wiki/FMin)
 
 ### gpyopt依存部
@@ -88,6 +90,7 @@ hyperoptが新しいnetworkxに対応していないため、古いVersionをイ
         "scope": [
           {ラベル名: [discrete, a, b, c]}
         ]
+
 [その他](http://sheffieldml.github.io/GPyOpt/tutorial/index.html)
 
 

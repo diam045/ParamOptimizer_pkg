@@ -28,7 +28,7 @@ def index():
                            message=message, title=title)
 
 
-# http://127.0.0.1:5000/suggest?condition={"seed":0,"lib":"hyperopt","algo":"rand","scope":[{"x":["uniform",-10,10]},{"y":["uniform",-10,10]}],"max_evals":3,"results":{"losses":[3.4777,3.294,28.729,19.62,20.458],"statuses":["ok","ok","ok","ok","ok"],"vals":{"y":[-0.13974,0.3722,-2.419,0.28755,-3.2827],"x":[1.8571,1.765,4.615,-4.068,2.832]}}}
+# http://127.0.0.1:5000/suggest?condition={"seed":0,"lib":"hyperopt","algo":"tpe","scope":[{"x":["uniform",-10,10]},{"y":["uniform",-10,10]}],"max_evals":1,"results":{"losses":[3.4777,3.294,28.729,19.62,20.458],"statuses":["ok","ok","ok","ok","ok"],"vals":{"y":[-0.13974,0.3722,-2.419,0.28755,-3.2827],"x":[1.8571,1.765,4.615,-4.068,2.832]}}}
 # http://127.0.0.1:5000/suggest?condition={"seed":0,"lib":"hyperopt","algo":"rand","scope":[{"x":["uniform",-10,10]},{"y":["uniform",-10,10]}],"max_evals":3,"results":{"losses":[],"statuses":[],"vals":{"y":[], "x":[]}}}
 @param_opt_web.route('/suggest', methods=['GET', 'POST'])
 def suggest():
@@ -50,7 +50,6 @@ def suggest():
         rval = dict(statuses=[err.args])
 
     render_template('index.html', title='Parameter Optimizer Condition', message=rval)
-    print(type(rval))
     return json.dumps(rval)
 
 
