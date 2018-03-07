@@ -65,6 +65,11 @@ hyperoptが新しいnetworkxに対応していないため、古いVersionをイ
 
 
 ### hyperopt依存部
++ algo
+  + tpe
+  + anneal
+  + rand
+  + mix
 + uniform
         "scope": [
           {ラベル名: [uniform, 下限値, 上限値]}
@@ -82,6 +87,16 @@ hyperoptが新しいnetworkxに対応していないため、古いVersionをイ
 [その他](https://github.com/hyperopt/hyperopt/wiki/FMin)
 
 ### gpyopt依存部
++ algo
+  + GP,EI
+  + GP,MPI
+  + GP,LCB
+  + GP_MCMC,EI_MCMC
+  + GP_MCMC,MPI_MCMC
+  + GP_MCMC,LCB_MCMC
+  + sparseGP,EI
+  + sparseGP,MPI
+  + sparseGP,LCB
 + continuous
         "scope": [
           {ラベル名: [continuous, 下限値, 上限値]}
@@ -90,6 +105,7 @@ hyperoptが新しいnetworkxに対応していないため、古いVersionをイ
         "scope": [
           {ラベル名: [discrete, a, b, c]}
         ]
++ categorical
 
 [その他](http://sheffieldml.github.io/GPyOpt/tutorial/index.html)
 
